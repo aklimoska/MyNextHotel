@@ -1,17 +1,21 @@
-﻿using System;
+﻿using MyNextHotel.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace MyNextHotel.Data.Repositories
 {
     class HotelsRepository : IHotelsRepository
     {
         private MyNextHotelDbContext _myNextHotelContext;
+        private ILogger _logger;
 
         public HotelsRepository()
         {
+            _logger = new ProjectLogger();
             _myNextHotelContext = new MyNextHotelDbContext();
         }
         public void AddHotel(Hotel hotel, List<Room> rooms)
@@ -24,6 +28,8 @@ namespace MyNextHotel.Data.Repositories
 
         public IQueryable<Hotel> GetAllHotels()
         {
+            _logger.LogInfo("Gi prikaza hotelite");
+            
             return _myNextHotelContext.Hotels;
         }
 
