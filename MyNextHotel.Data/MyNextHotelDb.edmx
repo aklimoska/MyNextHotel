@@ -1,0 +1,396 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MyNextHotel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cities">
+          <Key>
+            <PropertyRef Name="CityID" />
+          </Key>
+          <Property Name="CityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Hotels">
+          <Key>
+            <PropertyRef Name="HotelID" />
+          </Key>
+          <Property Name="HotelID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CityID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Address" Type="varchar" MaxLength="50" />
+          <Property Name="Stars" Type="int" />
+          <Property Name="HasPool" Type="bit" />
+          <Property Name="HasParking" Type="bit" />
+          <Property Name="HasGym" Type="bit" />
+          <Property Name="HasSpaCenter" Type="bit" />
+          <Property Name="IsPetFriendly" Type="bit" />
+          <Property Name="HasWiFi" Type="bit" />
+          <Property Name="HasRestourant" Type="bit" />
+          <Property Name="Distance" Type="numeric" Precision="5" Scale="1" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="PhotoData" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Rating">
+          <Key>
+            <PropertyRef Name="RatingID" />
+          </Key>
+          <Property Name="RatingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HotelID" Type="int" Nullable="false" />
+          <Property Name="Rate" Type="int" />
+        </EntityType>
+        <EntityType Name="Rooms">
+          <Key>
+            <PropertyRef Name="RoomsID" />
+          </Key>
+          <Property Name="RoomsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoomTypesID" Type="int" Nullable="false" />
+          <Property Name="HotelID" Type="int" Nullable="false" />
+          <Property Name="Price" Type="int" />
+          <Property Name="RoomNumber" Type="int" />
+          <Property Name="PhotoData" Type="varbinary(max)" />
+          <Property Name="Capacity" Type="int" />
+          <Property Name="HasAirCondition" Type="bit" />
+          <Property Name="HasTV" Type="bit" />
+          <Property Name="HasBalcony" Type="bit" />
+          <Property Name="HasKitchen" Type="bit" />
+          <Property Name="HasPrivateBathroom" Type="bit" />
+          <Property Name="Quadrature" Type="decimal" Precision="5" Scale="1" />
+        </EntityType>
+        <EntityType Name="RoomTypes">
+          <Key>
+            <PropertyRef Name="RoomTypesID" />
+          </Key>
+          <Property Name="RoomTypesID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_dbo_Hotels_dbo_Cities_CityID">
+          <End Role="Cities" Type="Self.Cities" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Hotels" Type="Self.Hotels" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="CityID" />
+            </Principal>
+            <Dependent Role="Hotels">
+              <PropertyRef Name="CityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Raiting_dbo_Hotels_HotelID">
+          <End Role="Hotels" Type="Self.Hotels" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hotels">
+              <PropertyRef Name="HotelID" />
+            </Principal>
+            <Dependent Role="Rating">
+              <PropertyRef Name="HotelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Rooms_dbo_Hotels_HotelID">
+          <End Role="Hotels" Type="Self.Hotels" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Rooms" Type="Self.Rooms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hotels">
+              <PropertyRef Name="HotelID" />
+            </Principal>
+            <Dependent Role="Rooms">
+              <PropertyRef Name="HotelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Rooms_dbo_RoomTypes_RoomTypesID">
+          <End Role="RoomTypes" Type="Self.RoomTypes" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Rooms" Type="Self.Rooms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoomTypes">
+              <PropertyRef Name="RoomTypesID" />
+            </Principal>
+            <Dependent Role="Rooms">
+              <PropertyRef Name="RoomTypesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MyNextHotelStoreContainer">
+          <EntitySet Name="Cities" EntityType="Self.Cities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hotels" EntityType="Self.Hotels" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rating" EntityType="Self.Rating" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rooms" EntityType="Self.Rooms" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoomTypes" EntityType="Self.RoomTypes" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_Hotels_dbo_Cities_CityID" Association="Self.FK_dbo_Hotels_dbo_Cities_CityID">
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="Hotels" EntitySet="Hotels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Raiting_dbo_Hotels_HotelID" Association="Self.FK_dbo_Raiting_dbo_Hotels_HotelID">
+            <End Role="Hotels" EntitySet="Hotels" />
+            <End Role="Rating" EntitySet="Rating" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Rooms_dbo_Hotels_HotelID" Association="Self.FK_dbo_Rooms_dbo_Hotels_HotelID">
+            <End Role="Hotels" EntitySet="Hotels" />
+            <End Role="Rooms" EntitySet="Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Rooms_dbo_RoomTypes_RoomTypesID" Association="Self.FK_dbo_Rooms_dbo_RoomTypes_RoomTypesID">
+            <End Role="RoomTypes" EntitySet="RoomTypes" />
+            <End Role="Rooms" EntitySet="Rooms" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MyNextHotel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="CityID" />
+          </Key>
+          <Property Name="CityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Hotels" Relationship="Self.FK_dbo_Hotels_dbo_Cities_CityID" FromRole="Cities" ToRole="Hotels" />
+        </EntityType>
+        <EntityType Name="Hotel">
+          <Key>
+            <PropertyRef Name="HotelID" />
+          </Key>
+          <Property Name="HotelID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CityID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Stars" Type="Int32" />
+          <Property Name="HasPool" Type="Boolean" />
+          <Property Name="HasParking" Type="Boolean" />
+          <Property Name="HasGym" Type="Boolean" />
+          <Property Name="HasSpaCenter" Type="Boolean" />
+          <Property Name="IsPetFriendly" Type="Boolean" />
+          <Property Name="HasWiFi" Type="Boolean" />
+          <Property Name="HasRestourant" Type="Boolean" />
+          <Property Name="Distance" Type="Decimal" Precision="5" Scale="1" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhotoData" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="City" Relationship="Self.FK_dbo_Hotels_dbo_Cities_CityID" FromRole="Hotels" ToRole="Cities" />
+          <NavigationProperty Name="Ratings" Relationship="Self.FK_dbo_Raiting_dbo_Hotels_HotelID" FromRole="Hotels" ToRole="Rating" />
+          <NavigationProperty Name="Rooms" Relationship="Self.FK_dbo_Rooms_dbo_Hotels_HotelID" FromRole="Hotels" ToRole="Rooms" />
+        </EntityType>
+        <EntityType Name="Rating">
+          <Key>
+            <PropertyRef Name="RatingID" />
+          </Key>
+          <Property Name="RatingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HotelID" Type="Int32" Nullable="false" />
+          <Property Name="Rate" Type="Int32" />
+          <NavigationProperty Name="Hotel" Relationship="Self.FK_dbo_Raiting_dbo_Hotels_HotelID" FromRole="Rating" ToRole="Hotels" />
+        </EntityType>
+        <EntityType Name="Room">
+          <Key>
+            <PropertyRef Name="RoomsID" />
+          </Key>
+          <Property Name="RoomsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoomTypesID" Type="Int32" Nullable="false" />
+          <Property Name="HotelID" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Int32" />
+          <Property Name="RoomNumber" Type="Int32" />
+          <Property Name="PhotoData" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Capacity" Type="Int32" />
+          <Property Name="HasAirCondition" Type="Boolean" />
+          <Property Name="HasTV" Type="Boolean" />
+          <Property Name="HasBalcony" Type="Boolean" />
+          <Property Name="HasKitchen" Type="Boolean" />
+          <Property Name="HasPrivateBathroom" Type="Boolean" />
+          <Property Name="Quadrature" Type="Decimal" Precision="5" Scale="1" />
+          <NavigationProperty Name="Hotel" Relationship="Self.FK_dbo_Rooms_dbo_Hotels_HotelID" FromRole="Rooms" ToRole="Hotels" />
+          <NavigationProperty Name="RoomType" Relationship="Self.FK_dbo_Rooms_dbo_RoomTypes_RoomTypesID" FromRole="Rooms" ToRole="RoomTypes" />
+        </EntityType>
+        <EntityType Name="RoomType">
+          <Key>
+            <PropertyRef Name="RoomTypesID" />
+          </Key>
+          <Property Name="RoomTypesID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Rooms" Relationship="Self.FK_dbo_Rooms_dbo_RoomTypes_RoomTypesID" FromRole="RoomTypes" ToRole="Rooms" />
+        </EntityType>
+        <Association Name="FK_dbo_Hotels_dbo_Cities_CityID">
+          <End Role="Cities" Type="Self.City" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Hotels" Type="Self.Hotel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="CityID" />
+            </Principal>
+            <Dependent Role="Hotels">
+              <PropertyRef Name="CityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Raiting_dbo_Hotels_HotelID">
+          <End Role="Hotels" Type="Self.Hotel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hotels">
+              <PropertyRef Name="HotelID" />
+            </Principal>
+            <Dependent Role="Rating">
+              <PropertyRef Name="HotelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Rooms_dbo_Hotels_HotelID">
+          <End Role="Hotels" Type="Self.Hotel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Rooms" Type="Self.Room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hotels">
+              <PropertyRef Name="HotelID" />
+            </Principal>
+            <Dependent Role="Rooms">
+              <PropertyRef Name="HotelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Rooms_dbo_RoomTypes_RoomTypesID">
+          <End Role="RoomTypes" Type="Self.RoomType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Rooms" Type="Self.Room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoomTypes">
+              <PropertyRef Name="RoomTypesID" />
+            </Principal>
+            <Dependent Role="Rooms">
+              <PropertyRef Name="RoomTypesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MyNextHotelDbContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cities" EntityType="Self.City" />
+          <EntitySet Name="Hotels" EntityType="Self.Hotel" />
+          <EntitySet Name="Ratings" EntityType="Self.Rating" />
+          <EntitySet Name="Rooms" EntityType="Self.Room" />
+          <EntitySet Name="RoomTypes" EntityType="Self.RoomType" />
+          <AssociationSet Name="FK_dbo_Hotels_dbo_Cities_CityID" Association="Self.FK_dbo_Hotels_dbo_Cities_CityID">
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="Hotels" EntitySet="Hotels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Raiting_dbo_Hotels_HotelID" Association="Self.FK_dbo_Raiting_dbo_Hotels_HotelID">
+            <End Role="Hotels" EntitySet="Hotels" />
+            <End Role="Rating" EntitySet="Ratings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Rooms_dbo_Hotels_HotelID" Association="Self.FK_dbo_Rooms_dbo_Hotels_HotelID">
+            <End Role="Hotels" EntitySet="Hotels" />
+            <End Role="Rooms" EntitySet="Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Rooms_dbo_RoomTypes_RoomTypesID" Association="Self.FK_dbo_Rooms_dbo_RoomTypes_RoomTypesID">
+            <End Role="RoomTypes" EntitySet="RoomTypes" />
+            <End Role="Rooms" EntitySet="Rooms" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MyNextHotelStoreContainer" CdmEntityContainer="MyNextHotelDbContext">
+          <EntitySetMapping Name="Cities">
+            <EntityTypeMapping TypeName="MyNextHotel.City">
+              <MappingFragment StoreEntitySet="Cities">
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hotels">
+            <EntityTypeMapping TypeName="MyNextHotel.Hotel">
+              <MappingFragment StoreEntitySet="Hotels">
+                <ScalarProperty Name="HotelID" ColumnName="HotelID" />
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Stars" ColumnName="Stars" />
+                <ScalarProperty Name="HasPool" ColumnName="HasPool" />
+                <ScalarProperty Name="HasParking" ColumnName="HasParking" />
+                <ScalarProperty Name="HasGym" ColumnName="HasGym" />
+                <ScalarProperty Name="HasSpaCenter" ColumnName="HasSpaCenter" />
+                <ScalarProperty Name="IsPetFriendly" ColumnName="IsPetFriendly" />
+                <ScalarProperty Name="HasWiFi" ColumnName="HasWiFi" />
+                <ScalarProperty Name="HasRestourant" ColumnName="HasRestourant" />
+                <ScalarProperty Name="Distance" ColumnName="Distance" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="PhotoData" ColumnName="PhotoData" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ratings">
+            <EntityTypeMapping TypeName="MyNextHotel.Rating">
+              <MappingFragment StoreEntitySet="Rating">
+                <ScalarProperty Name="RatingID" ColumnName="RatingID" />
+                <ScalarProperty Name="HotelID" ColumnName="HotelID" />
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rooms">
+            <EntityTypeMapping TypeName="MyNextHotel.Room">
+              <MappingFragment StoreEntitySet="Rooms">
+                <ScalarProperty Name="RoomsID" ColumnName="RoomsID" />
+                <ScalarProperty Name="RoomTypesID" ColumnName="RoomTypesID" />
+                <ScalarProperty Name="HotelID" ColumnName="HotelID" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="RoomNumber" ColumnName="RoomNumber" />
+                <ScalarProperty Name="PhotoData" ColumnName="PhotoData" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="HasAirCondition" ColumnName="HasAirCondition" />
+                <ScalarProperty Name="HasTV" ColumnName="HasTV" />
+                <ScalarProperty Name="HasBalcony" ColumnName="HasBalcony" />
+                <ScalarProperty Name="HasKitchen" ColumnName="HasKitchen" />
+                <ScalarProperty Name="HasPrivateBathroom" ColumnName="HasPrivateBathroom" />
+                <ScalarProperty Name="Quadrature" ColumnName="Quadrature" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoomTypes">
+            <EntityTypeMapping TypeName="MyNextHotel.RoomType">
+              <MappingFragment StoreEntitySet="RoomTypes">
+                <ScalarProperty Name="RoomTypesID" ColumnName="RoomTypesID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
