@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MyNextHotel.Data.Repositories
 {
-    class HotelsRepository : IHotelsRepository
+    public class HotelsRepository : IHotelsRepository
     {
         private MyNextHotelDbContext _myNextHotelContext;
         private ILogger _logger;

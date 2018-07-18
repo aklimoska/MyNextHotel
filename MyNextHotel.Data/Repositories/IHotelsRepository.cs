@@ -7,7 +7,7 @@ using MyNextHotel.Data;
 
 namespace MyNextHotel.Data.Repositories
 {
-    interface IHotelsRepository
+    public interface IHotelsRepository
     {
         IQueryable<Hotel> GetAllHotels();
         Hotel GetHotelById(int id);
