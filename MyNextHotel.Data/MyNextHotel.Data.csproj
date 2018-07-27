@@ -77,6 +77,8 @@
     </Compile>
     <Compile Include="Repositories\HotelsRepository.cs" />
     <Compile Include="Repositories\IHotelsRepository.cs" />
+    <Compile Include="Repositories\IRatingRepository.cs" />
+    <Compile Include="Repositories\RatingRepository.cs" />
     <Compile Include="Room.cs">
       <DependentUpon>MyNextHotelDb.tt</DependentUpon>
     </Compile>

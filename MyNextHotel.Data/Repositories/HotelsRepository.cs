@@ -38,9 +38,11 @@ namespace MyNextHotel.Data.Repositories
             return _myNextHotelContext.Hotels.Where(x => x.CityID == id).FirstOrDefault();
         }
 
+
         public Hotel GetHotelById(int id)
         {
             return _myNextHotelContext.Hotels.Where(x => x.HotelID == id).FirstOrDefault();
+            
         }
 
         public void RemoveHotel(Hotel hotel)

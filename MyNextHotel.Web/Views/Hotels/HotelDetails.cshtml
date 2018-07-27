@@ -1,0 +1,113 @@
+﻿@model MyNextHotel.Common.Dtos.HotelDto
+
+
+<link href="~/Content/ProjectStyleSheet.css" rel="stylesheet" type="text/css">
+
+
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title> @Model.Name  -My Next Hotel </title>
+</head>
+
+
+@{
+    var hID = Model.HotelID;
+}
+
+
+<br> <br>
+
+<h1>@Model.Name</h1>
+
+
+
+<div>
+    <div class="column">
+        <br> <br>
+        <img class="mainPhoto" src="data:image;base64,@Convert.ToBase64String(Model.PhotoData)" ; alt=" Image could not be loaded" />
+        <div class="font">
+            <br>
+            Rate This Hotel     <br>
+            <input type="image" src="http://www.pngmart.com/files/1/3D-Gold-Star-Transparent-Background.png" height="23" width="25" onclick="location.href='@Url.Action("AddRating", "Hotels", new {id=hID, star=1 })'" />
+            <input type="image" src="http://www.pngmart.com/files/1/3D-Gold-Star-Transparent-Background.png" height="23" width="25" onclick="location.href='@Url.Action("AddRating", "Hotels", new {id=hID, star=2 })'" />
+            <input type="image" src="http://www.pngmart.com/files/1/3D-Gold-Star-Transparent-Background.png" height="23" width="25" onclick="location.href='@Url.Action("AddRating", "Hotels", new {id=hID, star=3 })'" />
+            <input type="image" src="http://www.pngmart.com/files/1/3D-Gold-Star-Transparent-Background.png" height="23" width="25" onclick="location.href='@Url.Action("AddRating", "Hotels", new {id=hID, star=4 })'" />
+            <input type="image" src="http://www.pngmart.com/files/1/3D-Gold-Star-Transparent-Background.png" height="23" width="25" onclick="location.href='@Url.Action("AddRating", "Hotels", new {id=hID, star=5 })'" />
+
+
+
+
+            @{ if (Model.Rating != 0)
+                {<br><p>Current Rating: @Model.Rating <img src="http://www.pngmart.com/files/1/3D-Gold-Star-Transparent-Background.png" height="23" width="25" /></p>}
+            else
+            { <p>This Hotel has not been rated yet.              </p> } }
+
+        </div>
+
+
+
+    </div>
+
+
+    <div class="font">
+        <br>
+        <h3>@Model.Stars Star Hotel</h3>
+        <br> Hotel Address:  @Model.Address
+
+        <br>  The Hotel is PetFriendly:  @{ if (Model.IsPetFriendly.HasValue && Model.IsPetFriendly.Value == true)
+            { <img src="http://szzljy.com/images/check/check3.jpg" height=" 20 " width="20" /> }
+            else
+            { <img src=" http://www.pngmart.com/files/3/Red-Cross-Transparent-PNG.png" height=" 20 " width="20" /> } }
+
+        <br> The Hotel has a Gym: @{ if (Model.HasGym.HasValue && Model.HasGym.Value == true)
+            { <img src="http://szzljy.com/images/check/check3.jpg" height=" 20 " width="20" /> }
+            else
+            { <img src=" http://www.pngmart.com/files/3/Red-Cross-Transparent-PNG.png" height=" 20 " width="20" /> } }
+
+        <br> The Hotel has Wi-fi: @{ if ((bool)Model.HasWiFi.HasValue && Model.HasWiFi.Value == true)
+            { <img src="http://szzljy.com/images/check/check3.jpg" height=" 20 " width="20" /> }
+            else
+            { <img src=" http://www.pngmart.com/files/3/Red-Cross-Transparent-PNG.png" height=" 20 " width="20" /> } }
+
+        <br> The Hotel has a SpaCenter: @{ if ((bool)Model.HasSpaCenter.HasValue && Model.HasSpaCenter.Value == true)
+            { <img src="http://szzljy.com/images/check/check3.jpg" height=" 20 " width="20" /> }
+            else
+            { <img src=" http://www.pngmart.com/files/3/Red-Cross-Transparent-PNG.png" height=" 20 " width="20" /> } }
+
+        <br> The Hotel has a Restourant: @{ if ((bool)Model.HasRestourant.HasValue && Model.HasRestourant.Value == true)
+            { <img src="http://szzljy.com/images/check/check3.jpg" height=" 20 " width="20" /> }
+            else
+            { <img src=" http://www.pngmart.com/files/3/Red-Cross-Transparent-PNG.png" height=" 20 " width="20" /> } }
+
+        <br> The Hotel has a Pool: @{ if ((bool)Model.HasPool.HasValue && Model.HasPool.Value == true)
+            { <img src="http://szzljy.com/images/check/check3.jpg" height=" 20 " width="20" /> }
+            else
+            { <img src=" http://www.pngmart.com/files/3/Red-Cross-Transparent-PNG.png" height=" 20 " width="20" /> } }
+
+        <br> The Hotel has a Parking: @{ if ((bool)Model.HasParking.HasValue && Model.HasParking.Value == true)
+            { <img src="http://szzljy.com/images/check/check3.jpg" height=" 20 " width="20" /> }
+            else
+            { <img src=" http://www.pngmart.com/files/3/Red-Cross-Transparent-PNG.png" height=" 20 " width="20" /> } }
+
+        <br> Distance from the Center @Model.Distance Kilometers
+
+        <br> <br>
+        <h3>Description</h3>
+        <div  class="descriptionText"> @Model.Description </div>
+
+
+
+
+
+        <br>    <br>
+
+    </div>
+
+
+
+
+</div>
+
+
+

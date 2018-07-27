@@ -20,18 +20,30 @@ namespace MyNextHotel.Domain.Managers
             _hotelRepository = new HotelsRepository();
         }
 
-        
         public HotelDto GetHotel(int id)
         {
-            var HotelResult = new HotelDto();
+            var hotelResult = new HotelDto();
 
             var result = _hotelRepository.GetHotelById(id);
-            if(result!=null)
+            if (result != null)
             {
-                HotelResult.Name = result.Name;
+                hotelResult.Name = result.Name;
+                hotelResult.Address = result.Address;
+                hotelResult.Distance = result.Distance;
+                hotelResult.Description = result.Description;
+                hotelResult.HasGym = result.HasGym;
+                hotelResult.HasParking = result.HasParking;
+                hotelResult.HasPool = result.HasPool;
+                hotelResult.HasRestourant = result.HasRestourant;
+                hotelResult.HasSpaCenter = result.HasSpaCenter;
+                hotelResult.HasWiFi = result.HasWiFi;
+                hotelResult.HotelID = result.HotelID;
+                hotelResult.IsPetFriendly = result.IsPetFriendly;
+                hotelResult.Stars = result.Stars;
+                hotelResult.PhotoData = result.PhotoData;
             }
-
-            return HotelResult;
+            
+            return hotelResult;
         }
     }
 }

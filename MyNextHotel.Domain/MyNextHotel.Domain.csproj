@@ -41,7 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\IHotelsManager.cs" />
+    <Compile Include="Interfaces\IRatingManager.cs" />
     <Compile Include="Managers\HotelsManager.cs" />
+    <Compile Include="Managers\RatingManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
