@@ -32,16 +32,19 @@ namespace MyNextHotel.Web.Controllers
         public ActionResult GetAllHotels()
         {
             var model = _hotelsManager.GetAllHotels();
-            ViewBag.Lista = model;
+            ViewBag.Lista = model;    //todo: delete
             return View(model);
         }
+        //todo: better flow 
+        //todo: all dropdowns must read from db
         [HttpGet]
-        public ActionResult Search(string searching, bool isPetFriendly, bool hasRestaurant, int? CityId, int? RoomTypeId)
+        public ActionResult Search(string searching, bool isPetFriendly, bool hasRestaurant, int? CityId, int? RoomTypeId)    //todo: small letters in input param
         {
             var model = _hotelsManager.SearchResults(searching, isPetFriendly, hasRestaurant, CityId, RoomTypeId);
             ViewBag.SearchList = model;
             return View();
         }
+
         public ActionResult AddRating(int id, int star)
         {
             _ratingManager.AddRatingByHotelID(id, star);
