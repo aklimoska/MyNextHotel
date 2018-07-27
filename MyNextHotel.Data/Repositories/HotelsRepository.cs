@@ -31,7 +31,7 @@ namespace MyNextHotel.Data.Repositories
             return _myNextHotelContext.Hotels;
         }
 
-        public IQueryable<Hotel> SearchingQuery()
+        public IQueryable<Hotel> SearchingQuery()    //todo: remove
         {
             return _myNextHotelContext.Hotels.AsQueryable();
         }

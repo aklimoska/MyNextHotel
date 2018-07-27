@@ -47,32 +47,7 @@ namespace MyNextHotel.Domain.Managers
             }
             return HotelsResult;
         }
-        public IQueryable<Hotel> GetSearchingQuery(string searching, bool isPetFriendly, bool hasRestaurant, int? CityId, int? RoomTypeId)
-        {
-            var result = _hotelRepository.SearchingQuery();
-
-            if (!string.IsNullOrEmpty(searching))
-            {
-                result = result.Where(x => x.Name.Contains(searching));
-            }
-            if (isPetFriendly)
-            {
-                result = result.Where(x => x.IsPetFriendly == isPetFriendly);
-            }
-            if (hasRestaurant)
-            {
-                result = result.Where(x => x.HasRestourant == hasRestaurant);
-            }
-            if (CityId.HasValue)
-            {
-                result = result.Where(x => x.CityID == CityId);
-            }
-            if (RoomTypeId.HasValue)
-            {
-                result = result.Where(x => x.Rooms.Any(y => y.RoomType.RoomTypesID == RoomTypeId));
-            }
-            return result;
-        }
+      
         public List<HotelDto> SearchResults(string searching, bool isPetFriendly, bool hasRestaurant, int? CityId, int? RoomTypeId)
         {
             var HotelsResult = new List<HotelDto>();
@@ -102,6 +77,34 @@ namespace MyNextHotel.Domain.Managers
             }
             return HotelsResult;
         }
+        //todo: naming conventions
+        private IQueryable<Hotel> GetSearchingQuery(string searching, bool isPetFriendly, bool hasRestaurant, int? CityId, int? RoomTypeId)
+        {
+            var result = _hotelRepository.GetAllHotels();
+
+            if (!string.IsNullOrEmpty(searching))
+            {
+                result = result.Where(x => x.Name.Contains(searching));
+            }
+            if (isPetFriendly)
+            {
+                result = result.Where(x => x.IsPetFriendly == isPetFriendly);
+            }
+            if (hasRestaurant)
+            {
+                result = result.Where(x => x.HasRestourant == hasRestaurant);
+            }
+            if (CityId.HasValue)
+            {
+                result = result.Where(x => x.CityID == CityId);
+            }
+            if (RoomTypeId.HasValue)
+            {
+                result = result.Where(x => x.Rooms.Any(y => y.RoomType.RoomTypesID == RoomTypeId));
+            }
+            return result;
+        }
+
         public HotelDto GetHotel(int id)
         {
             var hotelResult = new HotelDto();
