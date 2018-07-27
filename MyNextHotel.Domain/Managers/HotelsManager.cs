@@ -28,7 +28,7 @@ namespace MyNextHotel.Domain.Managers
                 foreach (Hotel hotel in result)
                 {
                     HotelsResult.Add(new HotelDto()
-                    {
+                    { HotelID = hotel.HotelID,
                         Name = hotel.Name,
                         Address = hotel.Address,
                         Stars = hotel.Stars,
@@ -83,6 +83,7 @@ namespace MyNextHotel.Domain.Managers
                 {
                     HotelsResult.Add(new HotelDto()
                     {
+                        HotelID=hotel.HotelID,
                         Name = hotel.Name,
                         Address = hotel.Address,
                         Stars = hotel.Stars,

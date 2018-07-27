@@ -39,9 +39,15 @@
 
 
             @{ if (Model.Rating != 0)
-                {<br><p>Current Rating: @Model.Rating <img src="http://www.pngmart.com/files/1/3D-Gold-Star-Transparent-Background.png" height="23" width="25" /></p>}
+                {<br><p>Current User Rating: @Model.Rating <img src="http://www.pngmart.com/files/1/3D-Gold-Star-Transparent-Background.png" height="23" width="25" /></p>}
             else
             { <p>This Hotel has not been rated yet.              </p> } }
+
+
+            <br> <br>
+
+            <input type="button" class="btn btn-primary" value="Return to the previous page"  onclick="history.go(-1)" />
+            
 
         </div>
 
