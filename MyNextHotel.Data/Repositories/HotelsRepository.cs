@@ -27,12 +27,14 @@ namespace MyNextHotel.Data.Repositories
         }
 
         public IQueryable<Hotel> GetAllHotels()
-        {
-            _logger.LogInfo("Gi prikaza hotelite");
-            
+        {           
             return _myNextHotelContext.Hotels;
         }
 
+        public IQueryable<Hotel> SearchingQuery()
+        {
+            return _myNextHotelContext.Hotels.AsQueryable();
+        }
         public Hotel GetHotelByCityId(int id)
         {
             return _myNextHotelContext.Hotels.Where(x => x.CityID == id).FirstOrDefault();

@@ -14,5 +14,6 @@ namespace MyNextHotel.Data.Repositories
         Hotel GetHotelByCityId(int id);
         void AddHotel(Hotel hotel, List<Room> rooms);
         void RemoveHotel(Hotel hotel);
+        IQueryable<Hotel> SearchingQuery();
     }
 }

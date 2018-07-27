@@ -28,8 +28,20 @@ namespace MyNextHotel.Web.Controllers
             return View();
         }
 
-        
-        
+        [HttpGet]
+        public ActionResult GetAllHotels()
+        {
+            var model = _hotelsManager.GetAllHotels();
+            ViewBag.Lista = model;
+            return View(model);
+        }
+        [HttpGet]
+        public ActionResult Search(string searching, bool isPetFriendly, bool hasRestaurant, int? CityId, int? RoomTypeId)
+        {
+            var model = _hotelsManager.SearchResults(searching, isPetFriendly, hasRestaurant, CityId, RoomTypeId);
+            ViewBag.SearchList = model;
+            return View();
+        }
         public ActionResult AddRating(int id, int star)
         {
             _ratingManager.AddRatingByHotelID(id, star);

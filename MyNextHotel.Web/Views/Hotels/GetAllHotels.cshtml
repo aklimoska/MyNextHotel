@@ -1,0 +1,64 @@
+﻿@model IEnumerable<MyNextHotel.Common.Dtos.HotelDto>
+@{
+    /**/
+
+    ViewBag.Title = "GetAllHotels";
+}
+
+@using (Html.BeginForm("Search", "Hotels", FormMethod.Get))
+{
+    <div class="row" style="margin-top:30px">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <div class="col-md-3">
+                @Html.TextBox("searching", null, new { @class = "form-control" })
+            </div>
+            <div class="col-md-1">
+                <input class="btn btn-info" type="submit" value="Search" />
+            </div>
+            <div class="col-md-2">
+                @Html.DropDownList("CityId", new List<SelectListItem>
+                {
+                    new SelectListItem {Text = "Skopje", Value="1"},
+                    new SelectListItem {Text = "Struga", Value="2"},
+                    new SelectListItem {Text = "Skopje", Value="3"},
+                    new SelectListItem {Text = "Ohrid", Value="4"},
+                    new SelectListItem {Text = "Bitola", Value="5"}
+                }, "City", new { @class = "form-control btn-info" })
+            </div>
+            <div class="col-md-2">
+                @Html.DropDownList("RoomTypeId", new List<SelectListItem>
+                {
+                    new SelectListItem {Text = "Deluxe", Value="1"},
+                    new SelectListItem {Text = "Standard", Value="2"}
+                }, "Room Type", new { @class = "form-control btn-info" })
+            </div>
+            <div class="col-md-2">
+                @Html.CheckBox("isPetFriendly") <label>Pet Friendly</label>
+            </div>
+            <div class="col-md-2">
+                @Html.CheckBox("hasRestaurant") <label>With Restaurant</label>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+    <br />
+    <hr size="30">
+}
+
+<div class="container">
+    <div class="row">
+        <div class="gallery col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+        </div>
+        @foreach (var hotel in Model)
+        {
+            <div class="col-md-4" style="margin-top:15px; margin-bottom:15px;">
+                <p>@hotel.Name</p>
+                <div>
+                    <img src="data:image;base64,@Convert.ToBase64String(hotel.PhotoData)" ; height="500" width="400" alt=" Image could not be loaded" class="img-responsive" />
+                </div>
+            </div>
+        }
+    </div>
+</div>

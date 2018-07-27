@@ -10,6 +10,9 @@ namespace MyNextHotel.Domain.Interfaces
 {
     public interface IHotelsManager
     {
-        HotelDto GetHotel(int id); 
+        HotelDto GetHotel(int id);
+        List<HotelDto> GetAllHotels();
+        IQueryable<Hotel> GetSearchingQuery(string searching, bool isPetFriendly, bool hasRestaurant, int? CityId, int? RoomTypeId);
+        List<HotelDto> SearchResults(string searching, bool isPetFriendly, bool hasRestaurant, int? CityId, int? RoomTypeId);
     }
 }
