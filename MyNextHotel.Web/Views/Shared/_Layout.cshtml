@@ -1,6 +1,11 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <link rel="stylesheet" href="~/Content/jquery-ui.css">
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/autocomplete-ajax.custom.js"></script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
@@ -16,12 +21,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("My next Hotel", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("My Next Hotel", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Hotels", "GetAllHotels", "Hotels")</li>
+                    <li>@Html.ActionLink("Manage Hotels", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
             </div>

@@ -23,8 +23,9 @@ namespace MyNextHotel.Common.Dtos
         public string Description { get; set; }
         public byte[] PhotoData { get; set; }
 
-        public float Rating { get; set; } 
+        public float Rating { get; set; }
 
-        
+        public virtual CityDto City { get; set; }
+
     }
 }

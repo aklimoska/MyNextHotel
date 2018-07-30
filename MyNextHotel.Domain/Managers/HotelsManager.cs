@@ -21,13 +21,13 @@ namespace MyNextHotel.Domain.Managers
         }
         public List<HotelDto> GetAllHotels()
         {
-            var HotelsResult = new List<HotelDto>();
+            var hotelsResult = new List<HotelDto>();
             var result = _hotelRepository.GetAllHotels();
             if (result != null)
             {
                 foreach (Hotel hotel in result)
                 {
-                    HotelsResult.Add(new HotelDto()
+                    hotelsResult.Add(new HotelDto()
                     { HotelID = hotel.HotelID,
                         Name = hotel.Name,
                         Address = hotel.Address,
@@ -41,22 +41,45 @@ namespace MyNextHotel.Domain.Managers
                         HasRestourant = hotel.HasRestourant,
                         Distance = hotel.Distance,
                         Description = hotel.Description,
-                        PhotoData = hotel.PhotoData
+                        PhotoData = hotel.PhotoData,
+                        City = new CityDto()
+                        {
+                            CityID = hotel.CityID,
+                            Name = hotel.City.Name
+                        }
                     });
                 }
             }
-            return HotelsResult;
+            return hotelsResult;
         }
-      
-        public List<HotelDto> SearchResults(string searching, bool isPetFriendly, bool hasRestaurant, int? CityId, int? RoomTypeId)
+        public List<CityDto> GetAllCitiesByName(string searchTerm)
         {
-            var HotelsResult = new List<HotelDto>();
-            var results = GetSearchingQuery(searching, isPetFriendly, hasRestaurant, CityId, RoomTypeId);
+            var citiesResults = new List<CityDto>();
+            var result = _hotelRepository.GetAllCities();
+            result = result.Where(x => x.Name.StartsWith(searchTerm));
+            if (result != null)
+            {
+                foreach (City city in result)
+                {
+                    citiesResults.Add(new CityDto()
+                    {
+                        CityID = city.CityID,
+                        Name = city.Name
+                    });
+                }
+            }
+            return citiesResults;
+        }
+
+        public List<HotelDto> SearchResults(string keyword, bool isPetFriendly, bool hasRestaurant, string keywordCity, int? roomTypeId)
+        {
+            var hotelsResult = new List<HotelDto>();
+            var results = GetSearchingQuery(keyword, isPetFriendly, hasRestaurant, keywordCity, roomTypeId);
             if (results != null)
             {
                 foreach (Hotel hotel in results)
                 {
-                    HotelsResult.Add(new HotelDto()
+                    hotelsResult.Add(new HotelDto()
                     {
                         HotelID=hotel.HotelID,
                         Name = hotel.Name,
@@ -71,20 +94,24 @@ namespace MyNextHotel.Domain.Managers
                         HasRestourant = hotel.HasRestourant,
                         Distance = hotel.Distance,
                         Description = hotel.Description,
-                        PhotoData = hotel.PhotoData
+                        PhotoData = hotel.PhotoData,
+                        City = new CityDto()
+                        {
+                            CityID = hotel.CityID,
+                            Name = hotel.City.Name
+                        }
                     });
                 }
             }
-            return HotelsResult;
+            return hotelsResult;
         }
-        //todo: naming conventions
-        private IQueryable<Hotel> GetSearchingQuery(string searching, bool isPetFriendly, bool hasRestaurant, int? CityId, int? RoomTypeId)
+        private IQueryable<Hotel> GetSearchingQuery(string keyword, bool isPetFriendly, bool hasRestaurant, string keywordCity, int? roomTypeId)
         {
             var result = _hotelRepository.GetAllHotels();
 
-            if (!string.IsNullOrEmpty(searching))
+            if (!string.IsNullOrEmpty(keyword))
             {
-                result = result.Where(x => x.Name.Contains(searching));
+                result = result.Where(x => x.Name.Contains(keyword));
             }
             if (isPetFriendly)
             {
@@ -94,13 +121,13 @@ namespace MyNextHotel.Domain.Managers
             {
                 result = result.Where(x => x.HasRestourant == hasRestaurant);
             }
-            if (CityId.HasValue)
+            if (!string.IsNullOrEmpty(keywordCity))
             {
-                result = result.Where(x => x.CityID == CityId);
+                result = result.Where(x => x.City.Name.Contains(keywordCity));
             }
-            if (RoomTypeId.HasValue)
+            if (roomTypeId.HasValue)
             {
-                result = result.Where(x => x.Rooms.Any(y => y.RoomType.RoomTypesID == RoomTypeId));
+                result = result.Where(x => x.Rooms.Any(y => y.RoomType.RoomTypesID == roomTypeId));
             }
             return result;
         }

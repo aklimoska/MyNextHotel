@@ -20,7 +20,6 @@ namespace MyNextHotel.Data.Repositories
         }
         public void AddHotel(Hotel hotel, List<Room> rooms)
         {
-            //if (hotel == null) throw new ArgumentNullException("hotel");
             var savedHotel = _myNextHotelContext.Hotels.Add(hotel);
             _myNextHotelContext.Rooms.AddRange(rooms);
             _myNextHotelContext.SaveChanges();
@@ -28,12 +27,11 @@ namespace MyNextHotel.Data.Repositories
 
         public IQueryable<Hotel> GetAllHotels()
         {           
-            return _myNextHotelContext.Hotels;
+            return _myNextHotelContext.Hotels.Where(x => x.Rooms.Any());
         }
-
-        public IQueryable<Hotel> SearchingQuery()    //todo: remove
+        public IQueryable<City> GetAllCities()
         {
-            return _myNextHotelContext.Hotels.AsQueryable();
+            return _myNextHotelContext.Cities;
         }
         public Hotel GetHotelByCityId(int id)
         {

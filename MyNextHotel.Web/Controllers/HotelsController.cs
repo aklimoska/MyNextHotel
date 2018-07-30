@@ -32,15 +32,14 @@ namespace MyNextHotel.Web.Controllers
         public ActionResult GetAllHotels()
         {
             var model = _hotelsManager.GetAllHotels();
-            ViewBag.Lista = model;    //todo: delete
             return View(model);
         }
         //todo: better flow 
         //todo: all dropdowns must read from db
         [HttpGet]
-        public ActionResult Search(string searching, bool isPetFriendly, bool hasRestaurant, int? CityId, int? RoomTypeId)    //todo: small letters in input param
+        public ActionResult Search(string keyword, bool isPetFriendly, bool hasRestaurant, string keywordCity, int? roomTypeId)
         {
-            var model = _hotelsManager.SearchResults(searching, isPetFriendly, hasRestaurant, CityId, RoomTypeId);
+            var model = _hotelsManager.SearchResults(keyword, isPetFriendly, hasRestaurant, keywordCity, roomTypeId);
             ViewBag.SearchList = model;
             return View();
         }
@@ -61,6 +60,7 @@ namespace MyNextHotel.Web.Controllers
             
             return View(hotelmodel);
         }
+        
 
     }
 }

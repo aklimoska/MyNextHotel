@@ -8,20 +8,10 @@
         <div class="col-md-1"></div>
         <div class="col-md-10">
             <div class="col-md-3">
-                @Html.TextBox("searching", null, new { @class = "form-control" })
-            </div>
-            <div class="col-md-1">
-                <input class="btn btn-info" type="submit" value="Search" />
+                @Html.TextBox("keyword", null, new { @class = "form-control", @id = "txtKeyword", @placeholder = "Search by name ..." })
             </div>
             <div class="col-md-2">
-                @Html.DropDownList("CityId", new List<SelectListItem>
-                {
-                    new SelectListItem {Text = "Skopje", Value="1"},
-                    new SelectListItem {Text = "Struga", Value="2"},
-                    new SelectListItem {Text = "Skopje", Value="3"},
-                    new SelectListItem {Text = "Ohrid", Value="4"},
-                    new SelectListItem {Text = "Bitola", Value="5"}
-                }, "City", new { @class = "form-control btn-info" })
+                @Html.TextBox("keywordCity", null, new { @class = "form-control", @id = "txtKeywordCity", @placeholder = "Search by city ..." })
             </div>
             <div class="col-md-2">
                 @Html.DropDownList("RoomTypeId", new List<SelectListItem>
@@ -35,6 +25,9 @@
             </div>
             <div class="col-md-2">
                 @Html.CheckBox("hasRestaurant") <label>With Restaurant</label>
+            </div>
+            <div class="col-md-1">
+                <input class="btn btn-info" type="submit" value="Search" />
             </div>
         </div>
         <div class="col-md-1"></div>
@@ -59,4 +52,24 @@
         }
     </div>
 </div>
+
+<script>
+        $("#txtKeywordCity").autocomplete({
+            source: function (request, response) {
+            $.ajax({
+                url: '@Url.Action("GetSearchValue","Autocomplete")',
+                dataType: "json",
+                data: { search: $("#txtKeywordCity").val() },
+                success: function (data) {
+                    response($.map(data, function (item) {
+                        return { label: item.Name, value: item.Name };
+                    }));
+                },
+                error: function (xhr, status, error) {
+                    alert("Error");
+                }
+            });
+        }
+    });
+    </script>
 

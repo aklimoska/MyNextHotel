@@ -12,7 +12,7 @@ namespace MyNextHotel.Domain.Interfaces
     {
         HotelDto GetHotel(int id);
         List<HotelDto> GetAllHotels();
-       // IQueryable<Hotel> GetSearchingQuery(string searching, bool isPetFriendly, bool hasRestaurant, int? CityId, int? RoomTypeId);
-        List<HotelDto> SearchResults(string searching, bool isPetFriendly, bool hasRestaurant, int? CityId, int? RoomTypeId);
+        List<CityDto> GetAllCitiesByName(string searchTerm);
+        List<HotelDto> SearchResults(string keyword, bool isPetFriendly, bool hasRestaurant, string keywordCity, int? RoomTypeId);
     }
 }

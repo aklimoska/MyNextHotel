@@ -10,10 +10,10 @@ namespace MyNextHotel.Data.Repositories
     public interface IHotelsRepository
     {
         IQueryable<Hotel> GetAllHotels();
+        IQueryable<City> GetAllCities();
         Hotel GetHotelById(int id);
         Hotel GetHotelByCityId(int id);
         void AddHotel(Hotel hotel, List<Room> rooms);
         void RemoveHotel(Hotel hotel);
-        IQueryable<Hotel> SearchingQuery();     //todo: remove
     }
 }
