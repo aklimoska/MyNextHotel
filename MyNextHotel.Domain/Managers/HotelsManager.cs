@@ -19,6 +19,62 @@ namespace MyNextHotel.Domain.Managers
         {
             _hotelRepository = new HotelsRepository();
         }
+        public void AddHotel(HotelDto hotelDto)
+        {
+            Hotel newHotel = new Hotel();
+            newHotel.Name = hotelDto.Name;
+            newHotel.Address = hotelDto.Address;
+            newHotel.Description = hotelDto.Description;
+            newHotel.Distance = hotelDto.Distance;
+            newHotel.HasGym = hotelDto.HasGym;
+            newHotel.HasParking = hotelDto.HasParking;
+            newHotel.HasPool = hotelDto.HasPool;
+            newHotel.HasRestourant = hotelDto.HasRestourant;
+            newHotel.HasSpaCenter = hotelDto.HasSpaCenter;
+            newHotel.HasWiFi = hotelDto.HasWiFi;
+            newHotel.IsPetFriendly = hotelDto.IsPetFriendly;
+            newHotel.Stars = hotelDto.Stars;
+            newHotel.CityID = _hotelRepository.GetCityIdByName(hotelDto.CityName);
+            newHotel.PhotoData = hotelDto.PhotoData;
+
+            _hotelRepository.AddHotel(newHotel);
+            //return newHotel;
+        }
+        public void AddRoom(RoomDto roomDto)
+        {
+            Room newRoom = new Room();
+            newRoom.HotelID = 1;
+            newRoom.Capacity = roomDto.Capacity;
+            newRoom.HasAirCondition = roomDto.HasAirCondition;
+            newRoom.HasBalcony = roomDto.HasBalcony;
+            newRoom.HasKitchen = roomDto.HasKitchen;
+            newRoom.HasPrivateBathroom = roomDto.HasPrivateBathroom;
+            newRoom.HasTV = roomDto.HasTv;
+            newRoom.Price = roomDto.Price;
+            newRoom.Quadrature = roomDto.Quadrature;
+            newRoom.RoomNumber = _hotelRepository.GetHotelById(newRoom.HotelID).Rooms.Count + 1;
+            newRoom.RoomTypesID = roomDto.Type;
+            newRoom.PhotoData = roomDto.PhotoData;
+
+            _hotelRepository.AddRoom(newRoom);
+            //return newRoom;
+        }
+
+        public int NumberOfRoom(int hotelId)
+        {
+            return _hotelRepository.NumberOfRoom(hotelId);
+        }
+        public List<string> GetAllRoomType()
+        {
+            List<RoomType> roomTypesList = new List<RoomType>();
+            roomTypesList = _hotelRepository.GetAllRoomTypes();
+            List<string> RoomTypes = new List<string>();
+            foreach (var room in roomTypesList)
+            {
+                RoomTypes.Add(room.Description);
+            }
+            return RoomTypes;
+        }
         public List<HotelDto> GetAllHotels()
         {
             var hotelsResult = new List<HotelDto>();

@@ -13,21 +13,19 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-fixed-top navbar-default" role="navigation" style="padding-top:0px !important; float:none; margin-top:-50px">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+                   
                 </button>
-                @Html.ActionLink("My Next Hotel", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+                <ul class="nav nav-pills">
+                    <li>@Html.ActionLink("My Next Hotel", "GetAllHotels", "Hotels")</li>
                     <li>@Html.ActionLink("Hotels", "GetAllHotels", "Hotels")</li>
-                    <li>@Html.ActionLink("Manage Hotels", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Manage Hotels", "Menage", "Hotels")</li>
                 </ul>
             </div>
         </div>
@@ -35,9 +33,7 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+        
     </div>
 
     @Scripts.Render("~/bundles/jquery")

@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Dtos\CityDto.cs" />
     <Compile Include="Dtos\HotelDto.cs" />
+    <Compile Include="Dtos\RoomDto.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="ProjectLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

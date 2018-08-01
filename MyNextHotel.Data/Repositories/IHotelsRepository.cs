@@ -9,6 +9,11 @@ namespace MyNextHotel.Data.Repositories
 {
     public interface IHotelsRepository
     {
+        void AddHotel(Hotel hotel);
+        void AddRoom(Room room);
+        int NumberOfRoom(int hotelId);
+        int GetCityIdByName(string name);
+        List<RoomType> GetAllRoomTypes();
         IQueryable<Hotel> GetAllHotels();
         IQueryable<City> GetAllCities();
         Hotel GetHotelById(int id);

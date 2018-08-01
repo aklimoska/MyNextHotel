@@ -18,6 +18,11 @@ namespace MyNextHotel.Data.Repositories
             _logger = new ProjectLogger();
             _myNextHotelContext = new MyNextHotelDbContext();
         }
+        public void AddHotel(Hotel hotel)
+        {
+            var savedHotel = _myNextHotelContext.Hotels.Add(hotel);
+            _myNextHotelContext.SaveChanges();
+        }
         public void AddHotel(Hotel hotel, List<Room> rooms)
         {
             var savedHotel = _myNextHotelContext.Hotels.Add(hotel);
@@ -33,6 +38,20 @@ namespace MyNextHotel.Data.Repositories
         {
             return _myNextHotelContext.Cities;
         }
+        public int GetCityIdByName(string name)
+        {
+            return _myNextHotelContext.Cities.Where(x => x.Name.ToLower() == name.ToLower()).FirstOrDefault().CityID;
+        }
+        public void AddRoom(Room room)
+        {
+            var savedHotel = _myNextHotelContext.Rooms.Add(room);
+            _myNextHotelContext.SaveChanges();
+        }
+
+        public int NumberOfRoom(int hotelId)
+        {
+            return GetHotelById(hotelId).Rooms.Count;
+        }
         public Hotel GetHotelByCityId(int id)
         {
             return _myNextHotelContext.Hotels.Where(x => x.CityID == id).FirstOrDefault();
@@ -44,7 +63,10 @@ namespace MyNextHotel.Data.Repositories
             return _myNextHotelContext.Hotels.Where(x => x.HotelID == id).FirstOrDefault();
             
         }
-
+        public List<RoomType> GetAllRoomTypes()
+        {
+            return _myNextHotelContext.RoomTypes.ToList();
+        }
         public void RemoveHotel(Hotel hotel)
         {
             _myNextHotelContext.Hotels.Remove(hotel);

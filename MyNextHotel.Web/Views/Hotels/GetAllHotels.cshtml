@@ -1,60 +1,9 @@
-﻿@model IEnumerable<MyNextHotel.Common.Dtos.HotelDto>
+﻿@model  MyNextHotel.Web.Models.GetAllHotelsViewModel
 @{
     /**/
 
     ViewBag.Title = "GetAllHotels";
 }
-
-@using (Html.BeginForm("Search", "Hotels", FormMethod.Get))
-{
-    <div class="row" style="margin-top:30px">
-        <div class="col-md-1"></div>
-        <div class="col-md-10">
-            <div class="col-md-3">
-                @Html.TextBox("keyword", null, new { @class = "form-control", @id = "txtKeyword", @placeholder = "Search by name ..." })
-            </div>
-            <div class="col-md-2">
-                @Html.TextBox("keywordCity", null, new { @class = "form-control", @id = "txtKeywordCity", @placeholder = "Search by city ..." })
-            </div>
-            <div class="col-md-2">
-                @Html.DropDownList("RoomTypeId", new List<SelectListItem>
-                {
-                    new SelectListItem {Text = "Deluxe", Value="1"},
-                    new SelectListItem {Text = "Standard", Value="2"}
-                }, "Room Type", new { @class = "form-control btn-info" })
-            </div>
-            <div class="col-md-2">
-                @Html.CheckBox("isPetFriendly") <label>Pet Friendly</label>
-            </div>
-            <div class="col-md-2">
-                @Html.CheckBox("hasRestaurant") <label>With Restaurant</label>
-            </div>
-            <div class="col-md-1">
-                <input class="btn btn-info" type="submit" value="Search" />
-            </div>
-        </div>
-        <div class="col-md-1"></div>
-    </div>
-    <br />
-    <hr size="30">
-}
-
-<div class="container">
-    <div class="row">
-        <div class="gallery col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
-        </div>
-        @foreach (var hotel in Model)
-        {
-            <div class="col-md-4" style="margin-top:15px; margin-bottom:15px;">
-                <p> @hotel.Name           </p>
-                <div>
-                    <img src="data:image;base64,@Convert.ToBase64String(hotel.PhotoData)" ; height="500" width="400" alt=" Image could not be loaded" class="img-responsive" onmouseover=""  style="cursor: pointer"   onclick="location.href='@Url.Action("HotelDetails", "Hotels", new { id=hotel.HotelID} )'" />
-                </div>
-            </div>
-        }
-    </div>
-</div>
 
 <script>
         $("#txtKeywordCity").autocomplete({
@@ -74,5 +23,340 @@
             });
         }
     });
-    </script>
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>MyNextHotel</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Travelix Project">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="~/Content/Template-styles/bootstrap4/bootstrap.min.css">
+    <link href="~/Plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="~/Plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+    <link rel="stylesheet" type="text/css" href="~/Plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+    <link rel="stylesheet" type="text/css" href="~/Plugins/OwlCarousel2-2.2.1/animate.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Template-styles/main_styles.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Template-styles/responsive.css">
+</head>
+
+<body>
+
+    <div class="super_container">
+
+
+        <div class="menu trans_500">
+            <div class="menu_content d-flex flex-column align-items-center justify-content-center text-center">
+                <div class="menu_close_container"><div class="menu_close"></div></div>
+                <div class="logo menu_logo"><a href="#"><img src="~/Images/logo.png" alt=""></a></div>
+                <ul>
+                    <li class="menu_item"><a href="#">home</a></li>
+                    <li class="menu_item"><a href="about.html">about us</a></li>
+                    <li class="menu_item"><a href="offers.html">offers</a></li>
+                    <li class="menu_item"><a href="blog.html">news</a></li>
+                    <li class="menu_item"><a href="contact.html">contact</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Home -->
+        <!-- Search -->
+
+        <div class="search" style="height:97px !important">
+
+
+            <!-- Search Contents -->
+
+            <div>
+                <div class="row fill_height">
+                    <div class="col fill_height">
+
+                        <!-- Search Tabs -->
+
+                        
+
+                        <!-- Search Panel -->
+
+
+                        @using (Html.BeginForm("Search", "Hotels", FormMethod.Get))
+                        {
+                            <div class="row" style="margin-top:30px;">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <div class="col-md-3">
+                                        @Html.TextBox("keyword", null, new { @class = "form-control", @id = "txtKeyword", @placeholder = "Search by name ..." })
+                                    </div>
+                                    <div class="col-md-2">
+                                        @Html.TextBox("keywordCity", null, new { @class = "form-control", @id = "txtKeywordCity", @placeholder = "Search by city ..." })
+                                    </div>
+                                    <div class="col-md-2" style="height:30px">
+
+                                        @{ List<SelectListItem> list = new List<SelectListItem>();
+                                            int count = 1;
+                                            foreach (var item in Model.RoomTypes)
+                                            {
+                                                SelectListItem selectitem = new SelectListItem();
+                                                selectitem.Text = item;
+                                                selectitem.Value = count.ToString();
+                                                count++;
+                                                list.Add(selectitem);
+                                            }
+                                        }
+                                        @Html.DropDownList("roomTypeId", list, "Room Type", new { @class = "form-control btn-default" })
+
+
+
+                                    </div>
+                                    <div class="col-md-2">
+                                        @Html.CheckBox("isPetFriendly") <label style="font-size:11px; color:whitesmoke !important">Pet Friendly</label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        @Html.CheckBox("hasRestaurant") <label style="font-size:11px; color:whitesmoke !important">With Restaurant</label>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <input class="btn btn-default" type="submit" value="Search" />
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div>
+                            <br />
+                            <hr size="30">
+                        }
+
+
+
+
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Intro -->
+
+        <div class="intro">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <h2 class="intro_title text-center">Here you will find the best travel offers</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-10 offset-lg-1">
+                        <div class="intro_text text-center">
+                            <p>My Next Hotel your new favourite tool for finding a recreating, relaxing or energizing, adventure filled or leasure vacation. Nevermore will you spend endless amounts of time, searching for an affordable an fulfilling trip. Your next answer is one click away. </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row intro_items">
+
+                    <!-- Intro Item -->
+                    @foreach (var hotel in Model.Hotels)
+                    {<div class="col-lg-4 intro_col">
+                            <div class="intro_item" style="height:500px !important">
+
+                                @*Image by https://unsplash.com/@dnevozhai*@
+                                <div><img src="data:image;base64,@Convert.ToBase64String(hotel.PhotoData)" ; style="height:350px; width:400px" alt=" Image could not be loaded" class="img-responsive" /></div>
+                                <div>
+                                    <div class="intro_date">@hotel.Name</div>
+                                    <br> <br> <br> 
+                                    <div class="button intro_button" onmouseover="" style="cursor: pointer" onclick="location.href='@Url.Action("HotelDetails", "Hotels", new { id = hotel.HotelID })'"><div class="button_bcg"></div><a href="#">see more<span></span><span></span><span></span></a></div>
+                                    <div class="intro_center text-center">
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <script>
+        $("#txtKeywordCity").autocomplete({
+            source: function (request, response) {
+            $.ajax({
+                url: '@Url.Action("GetSearchValue","Autocomplete")',
+                dataType: "json",
+                data: { search: $("#txtKeywordCity").val() },
+                success: function (data) {
+                    response($.map(data, function (item) {
+                        return { label: item.Name, value: item.Name };
+                    }));
+                },
+                error: function (xhr, status, error) {
+                    alert("Error");
+                }
+            });
+        }
+    });
+                    </script>
+                    <!-- Intro Item -->
+
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+
+        <div class="cta">
+            @*Image by https://unsplash.com/@thanni*@
+            <div class="cta_background" style="background-image:url(../../Images/elements_background.jpg)"></div>
+            <br> <br>
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+
+                        <!-- CTA Slider -->
+
+                        <div class="cta_slider_container">
+                            <div class="owl-carousel owl-theme cta_slider">
+
+                                <!-- CTA Slider Item -->
+                                <div class="owl-item cta_item text-center">
+                                    <div class="cta_title">maldives deluxe package</div>
+                                    <div class="rating_r rating_r_4">
+                                        <i></i>
+                                        <i></i>
+                                        <i></i>
+                                        <i></i>
+                                        <i></i>
+                                    </div>
+                                    <p class="cta_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eu convallis tortor. Suspendisse potenti. In faucibus massa arcu, vitae cursus mi hendrerit nec. Proin bibendum, augue faucibus tincidunt ultrices, tortor augue gravida lectus, et efficitur enim justo vel ligula.</p>
+                                    <div class="button cta_button"><div class="button_bcg"></div><a href="#">book now<span></span><span></span><span></span></a></div>
+                                </div>
+
+                                <!-- CTA Slider Item -->
+                                <div class="owl-item cta_item text-center">
+                                    <div class="cta_title">maldives deluxe package</div>
+                                    <div class="rating_r rating_r_4">
+                                        <i></i>
+                                        <i></i>
+                                        <i></i>
+                                        <i></i>
+                                        <i></i>
+                                    </div>
+                                    <p class="cta_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eu convallis tortor. Suspendisse potenti. In faucibus massa arcu, vitae cursus mi hendrerit nec. Proin bibendum, augue faucibus tincidunt ultrices, tortor augue gravida lectus, et efficitur enim justo vel ligula.</p>
+                                    <div class="button cta_button"><div class="button_bcg"></div><a href="#">book now<span></span><span></span><span></span></a></div>
+                                </div>
+
+                                <!-- CTA Slider Item -->
+                                <div class="owl-item cta_item text-center">
+                                    <div class="cta_title">maldives deluxe package</div>
+                                    <div class="rating_r rating_r_4">
+                                        <i></i>
+                                        <i></i>
+                                        <i></i>
+                                        <i></i>
+                                        <i></i>
+                                    </div>
+                                    <p class="cta_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eu convallis tortor. Suspendisse potenti. In faucibus massa arcu, vitae cursus mi hendrerit nec. Proin bibendum, augue faucibus tincidunt ultrices, tortor augue gravida lectus, et efficitur enim justo vel ligula.</p>
+                                    <div class="button cta_button"><div class="button_bcg"></div><a href="#">book now<span></span><span></span><span></span></a></div>
+                                </div>
+
+                            </div>
+
+
+
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+
+
+        <!-- Footer -->
+
+        <footer class="footer" style="margin-top:50px">
+            <div class="container">
+                <div class="row">
+
+                    <!-- Footer Column -->
+                    <div class="col-lg-6 footer_column">
+                        <div class="footer_col">
+                            
+                                
+                                    <div style="margin-bottom:20px;" class="footer_title text-center">My Next Hotel</div>
+                                
+                                <p class="footer_about_text text-center">My Next Hotel your new favourite tool for finding a recreating, relaxing or energizing, adventure filled or leasure vacation. Nevermore will you spend endless amounts of time, searching for an affordable an fulfilling trip. Your next answer is one click away.     </p>
+                                <div class="row">
+                                    <div class="col-lg-3"></div>
+                                    <div class="col-lg-6">
+                                        <ul class="footer_social_list">
+                                            <li class="footer_social_item"><a href="#"><i class="fa fa-pinterest"></i></a></li>
+                                            <li class="footer_social_item"><a href="#"><i class="fa fa-facebook-f"></i></a></li>
+                                            <li class="footer_social_item"><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                            <li class="footer_social_item"><a href="#"><i class="fa fa-dribbble"></i></a></li>
+                                            <li class="footer_social_item"><a href="#"><i class="fa fa-behance"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-3"></div>
+                                </div>    
+                            
+                            
+                        </div>
+                    </div>
+
+                    <!-- Footer Column -->
+                    <div class="col-lg-6 footer_column">
+                        <div class="footer_col">
+                            <div class="footer_title text-center">contact info</div>
+                            <div class="footer_content footer_contact text-center">
+                                <div class="row">
+                                    <div class="col-lg-4"></div>
+                                    <div class="col-lg-6">
+                                        <ul class="contact_info_list text-center">
+                                            <li class="contact_info_item d-flex flex-row">
+                                                <div><div class="contact_info_icon"><img src="~/Images/placeholder.svg" alt=""></div></div>
+                                                <div class="contact_info_text">11th October St., Skopje 1000</div>
+                                            </li>
+                                            <li class="contact_info_item d-flex flex-row">
+                                                <div><div class="contact_info_icon"><img src="~/Images/phone-call.svg" alt=""></div></div>
+                                                <div class="contact_info_text">02 311 1033</div>
+                                            </li>
+                                            <li class="contact_info_item d-flex flex-row">
+                                                <div><div class="contact_info_icon"><img src="~/Images/message.svg" alt=""></div></div>
+                                                <div class="contact_info_text"><a href="mailto:contactme@gmail.com?Subject=Hello" target="_top">contact@it-labs.com</a></div>
+                                            </li>
+                                            <li class="contact_info_item d-flex flex-row">
+                                                <div><div class="contact_info_icon"><img src="~/Images/planet-earth.svg" alt=""></div></div>
+                                                <div class="contact_info_text"><a href="https://colorlib.com">www.it-labs.com</a></div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-2"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </footer>
+
+        <!-- Copyright -->
+
+
+        <script src="~/Scripts/Template-js/jquery-3.2.1.min.js"></script>
+        <script src="~/Content/Template-styles/bootstrap4/popper.js"></script>
+        <script src="~/Content/Template-styles/bootstrap4/bootstrap.min.js"></script>
+        <script src="~/Plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+        <script src="~/Plugins/easing/easing.js"></script>
+        <script src="~/Scripts/Template-js/custom.js"></script>
+</body>
+
+</html>
 

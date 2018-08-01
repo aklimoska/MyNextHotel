@@ -10,6 +10,10 @@ namespace MyNextHotel.Domain.Interfaces
 {
     public interface IHotelsManager
     {
+        void AddHotel(HotelDto hotelDto);
+        void AddRoom(RoomDto roomDto);
+        int NumberOfRoom(int hotelId);
+        List<string> GetAllRoomType();
         HotelDto GetHotel(int id);
         List<HotelDto> GetAllHotels();
         List<CityDto> GetAllCitiesByName(string searchTerm);

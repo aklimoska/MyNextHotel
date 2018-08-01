@@ -7,7 +7,9 @@ using MyNextHotel.Domain.Interfaces;
 using MyNextHotel.Domain.Managers;
 using MyNextHotel.Web;
 using MyNextHotel.Common.Dtos;
-
+using MyNextHotel.Web.Models;
+using System.IO;
+using System.Drawing;
 
 namespace MyNextHotel.Web.Controllers
 {
@@ -27,21 +29,114 @@ namespace MyNextHotel.Web.Controllers
         {
             return View();
         }
+        public ActionResult Menage()
+        {
+            return View();
+        }
 
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create(CreateHotelViewModel newHotel, HttpPostedFileBase file)
+        {
+            if (ModelState.IsValid)
+            {
+                HotelDto hotelDto = new HotelDto();
+                hotelDto.Name = newHotel.Name;
+                hotelDto.Stars = newHotel.Stars;
+                hotelDto.HasPool = newHotel.HasPool;
+                hotelDto.HasParking = newHotel.HasParking;
+                hotelDto.HasRestourant = newHotel.HasRestourant;
+                hotelDto.HasGym = newHotel.HasGym;
+                hotelDto.HasSpaCenter = newHotel.HasSpaCenter;
+                hotelDto.HasWiFi = newHotel.HasWiFi;
+                hotelDto.IsPetFriendly = newHotel.IsPetFriendly;
+                hotelDto.Description = newHotel.Description;
+                hotelDto.Distance = newHotel.Distance;
+                hotelDto.Address = newHotel.Address;
+                hotelDto.CityName = newHotel.City;
+                hotelDto.PhotoData = FileToByteArray(file);
+                _hotelsManager.AddHotel(hotelDto);
+
+                return RedirectToAction("Menage");
+            }
+            else
+            {
+                return View(newHotel);
+            }
+        }
+
+        private byte[] FileToByteArray(HttpPostedFileBase file)
+        {
+            BinaryReader b = new BinaryReader(file.InputStream);
+            byte[] binData = b.ReadBytes(file.ContentLength);
+            return binData;
+        }
+
+        public ActionResult AddRoom()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddRoom(CreateRoomViewModel newRoom, HttpPostedFileBase file)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var roomDto = new RoomDto();
+                roomDto.Capacity = newRoom.Capacity;
+                roomDto.HasAirCondition = newRoom.HasAirCondition;
+                roomDto.HasBalcony = newRoom.HasBalcony;
+                roomDto.HasKitchen = newRoom.HasKitchen;
+                roomDto.HasPrivateBathroom = newRoom.HasPrivateBathroom;
+                roomDto.HasTv = newRoom.HasTv;
+                roomDto.Price = newRoom.Price;
+                roomDto.Quadrature = newRoom.Quadrature;
+                roomDto.Type = newRoom.Type;
+                roomDto.PhotoData = FileToByteArray(file);
+                _hotelsManager.AddRoom(roomDto);
+
+                return RedirectToAction("Menage");
+            }
+            else
+            {
+                return View(newRoom);
+            }
+        }
+
+        
         [HttpGet]
         public ActionResult GetAllHotels()
         {
-            var model = _hotelsManager.GetAllHotels();
-            return View(model);
+            List<HotelDto> model = new List<HotelDto>();
+            GetAllHotelsViewModel Model = new GetAllHotelsViewModel();
+            List<string> roomtypes = new List<string>();
+            roomtypes = _hotelsManager.GetAllRoomType();
+            model = _hotelsManager.GetAllHotels();
+            Model.Hotels = model;
+            Model.RoomTypes = roomtypes;
+
+
+
+            return View(Model);
         }
-        //todo: better flow 
-        //todo: all dropdowns must read from db
+
         [HttpGet]
         public ActionResult Search(string keyword, bool isPetFriendly, bool hasRestaurant, string keywordCity, int? roomTypeId)
         {
             var model = _hotelsManager.SearchResults(keyword, isPetFriendly, hasRestaurant, keywordCity, roomTypeId);
             ViewBag.SearchList = model;
-            return View();
+            List<string> roomtypes = new List<string>();
+            roomtypes = _hotelsManager.GetAllRoomType();
+            GetAllHotelsViewModel Model = new GetAllHotelsViewModel();
+            Model.RoomTypes = roomtypes;
+            return View(Model);
+
+            
         }
 
         public ActionResult AddRating(int id, int star)

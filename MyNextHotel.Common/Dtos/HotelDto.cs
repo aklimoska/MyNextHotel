@@ -11,6 +11,7 @@ namespace MyNextHotel.Common.Dtos
         public int HotelID { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
+        public string CityName { get; set; }
         public int? Stars { get; set; }
         public bool? HasPool { get; set; }
         public bool? HasParking { get; set; }
