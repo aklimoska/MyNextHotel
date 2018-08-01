@@ -32,7 +32,7 @@ namespace MyNextHotel.Data.Repositories
 
         public IQueryable<Hotel> GetAllHotels()
         {           
-            return _myNextHotelContext.Hotels.Where(x => x.Rooms.Any());
+            return _myNextHotelContext.Hotels;
         }
         public IQueryable<City> GetAllCities()
         {
